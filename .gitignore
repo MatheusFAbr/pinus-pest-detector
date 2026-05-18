@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #env
 .env
 .env.*
@@ -29,3 +30,52 @@ dist-ssr
 
 .env
 .vite
+=======
+# Dependências (Node Modules - caso use npm)
+node_modules/
+npm-debug.log*
+
+# Firebase (Segurança Crítica!)
+# Ignora o arquivo real de configuração para evitar expor suas chaves de API
+config.js
+firebase-config.js
+google-services.json
+GoogleService-Info.plist
+
+# Arquivos de Ambiente (Contém dados sensíveis)
+.env
+.env.local
+.env.*.local
+
+# Arquivos de Sistema do Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Arquivos de Sistema Operacional
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs e Banco de Dados
+*.log
+*.sql
+*.sqlite
+
+# Arquivos de Build (Se gerar arquivos compilados)
+*.class
+*.exe
+*.dll
+*.so
+*.o
+
+# Pasta de cache do TensorFlow (se houver)
+__pycache__/
+*.pyc
+>>>>>>> a75bed53b3b695585c0695666e9d8f80f51a08aa

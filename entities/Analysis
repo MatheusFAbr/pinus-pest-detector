@@ -1,0 +1,46 @@
+{
+  "name": "Analysis",
+  "type": "object",
+  "properties": {
+    "plantacaoId": {
+      "type": "string",
+      "description": "ID da planta\u00e7\u00e3o analisada"
+    },
+    "plantacaoNome": {
+      "type": "string",
+      "description": "Nome da planta\u00e7\u00e3o"
+    },
+    "nomeImagem": {
+      "type": "string",
+      "description": "Nome do arquivo da imagem"
+    },
+    "dataHora": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data e hora da an\u00e1lise"
+    },
+    "resultado": {
+      "type": "string",
+      "enum": [
+        "saudavel",
+        "infestada"
+      ],
+      "description": "Resultado da an\u00e1lise"
+    },
+    "urlImagem": {
+      "type": "string",
+      "description": "URL da imagem analisada"
+    },
+    "coordenada": {
+      "type": "string",
+      "description": "Coordenadas GPS"
+    },
+    "confiancaIA": {
+      "type": "number",
+      "description": "Confian\u00e7a da IA em porcentagem"
+    }
+  },
+  "required": [
+    "resultado"
+  ]
+}

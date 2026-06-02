@@ -185,7 +185,10 @@ export default function Records() {
 
   const { data: analyses = [], isLoading } = useQuery({
     queryKey: ['analyses'],
-    queryFn: () => base44.entities.Analysis.list('-created_date'),
+    queryFn: async () => {
+      const res = await api.get('/analyses');
+      return res.data;
+    },
   });
 
   const filtered = useMemo(() => {
@@ -202,14 +205,14 @@ export default function Records() {
   const totalPages = Math.ceil(filtered.length / perPage);
 
   const handleDelete = async (id) => {
-    await base44.entities.Analysis.delete(id);
+    await api.delete(`/analyses/${id}`);
     queryClient.invalidateQueries({ queryKey: ['analyses'] });
     setDeletingAnalysis(null);
     toast.success('Registro excluído.');
   };
 
   const handleEdit = async (id, data) => {
-    await base44.entities.Analysis.update(id, data);
+    await api.put(`/analyses/${id}`, data);
     queryClient.invalidateQueries({ queryKey: ['analyses'] });
     setEditingAnalysis(null);
     toast.success('Registro atualizado.');

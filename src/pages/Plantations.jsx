@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import api from '@/api';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -23,47 +24,42 @@ export default function Plantations() {
 
   const queryClient = useQueryClient();
 
-  const { data = plantations, isLoading } = useQuery({
+  const { data = [], isLoading } = useQuery({
     queryKey: ['plantations'],
-    queryFn: async () => plantations,
+    queryFn: async () => {
+      const res = await api.get('/plantations');
+      return res.data;
+    },
   });
 
   const savePlantations = (updated) => {
     setPlantations(updated);
     localStorage.setItem('plantations', JSON.stringify(updated));
+    queryClient.invalidateQueries({ queryKey: ['plantations'] });
   };
 
   const createMutation = useMutation({
-    mutationFn: async (data) => {
-      const newPlantation = {
-        id: crypto.randomUUID(),
-        ...data,
-      };
-
-      const updated = [newPlantation, ...plantations];
+    mutationFn: async (formData) => {
+      const current = JSON.parse(localStorage.getItem('plantations') || '[]');
+      const newPlantation = { id: crypto.randomUUID(), ...formData };
+      const updated = [newPlantation, ...current];
       savePlantations(updated);
-
       return newPlantation;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['plantations'] });
       closeModal();
       toast.success('Plantação criada!');
     },
   });
 
   const updateMutation = useMutation({
-    mutationFn: async ({ id, data }) => {
-      const updated = plantations.map((p) =>
-        p.id === id ? { ...p, ...data } : p
-      );
-
+    mutationFn: async ({ id, data: formData }) => {
+      const current = JSON.parse(localStorage.getItem('plantations') || '[]');
+      const updated = current.map((p) => (p.id === id ? { ...p, ...formData } : p));
       savePlantations(updated);
-
-      return data;
+      return formData;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['plantations'] });
       closeModal();
       toast.success('Plantação atualizada!');
     },
@@ -71,11 +67,11 @@ export default function Plantations() {
 
   const deleteMutation = useMutation({
     mutationFn: async (id) => {
-      const updated = plantations.filter((p) => p.id !== id);
+      const current = JSON.parse(localStorage.getItem('plantations') || '[]');
+      const updated = current.filter((p) => p.id !== id);
       savePlantations(updated);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['plantations'] });
       toast.success('Plantação excluída!');
     },
   });

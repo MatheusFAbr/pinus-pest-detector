@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Brain } from 'lucide-react';
 import { useAuth } from '@/lib/AuthContext';
 
 export default function Login() {
@@ -33,10 +33,7 @@ export default function Login() {
         <div className="flex flex-col items-center mb-8">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-              <svg viewBox="0 0 24 24" className="w-6 h-6 fill-primary-foreground">
-                <path d="M12 2C8 2 5 5 5 9c0 2.5 1.2 4.7 3 6.1V18h8v-2.9c1.8-1.4 3-3.6 3-6.1 0-4-3-7-7-7z"/>
-                <path d="M9 21h6M10 18v3M14 18v3" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-              </svg>
+              <Brain className="w-6 h-6 text-primary-foreground" />
             </div>
             <div>
               <span className="font-orbitron text-xl font-bold text-foreground">Sylva</span>

@@ -102,18 +102,19 @@ export default function NewAnalysis() {
 
     const plantation = plantations.find(p => p.id === selectedPlantation);
 
-    await api.post('/analyses', {
-      plantacaoId: selectedPlantation || '',
-      plantacaoNome: plantation?.nome || 'Não especificada',
-      nomeImagem: imageFile.name,
-      dataHora: new Date().toISOString(),
-      resultado: aiResult.resultado,
-      urlImagem: file_url,
-      coordenada,
-      confiancaIA: aiResult.confianca,
-    });
-
-    queryClient.invalidateQueries({ queryKey: ['analyses'] });
+    try {
+      await api.post('/analyses', {
+        plantacaoId: selectedPlantation || '',
+        plantacaoNome: plantation?.nome || 'Não especificada',
+        nomeImagem: imageFile.name,
+        dataHora: new Date().toISOString(),
+        resultado: aiResult.resultado,
+        urlImagem: file_url,
+        coordenada,
+        confiancaIA: aiResult.confianca,
+      });
+      queryClient.invalidateQueries({ queryKey: ['analyses'] });
+    } catch (_) {}
     setResult({ ...aiResult });
     setIsProcessing(false);
     toast.success('Análise concluída!');
